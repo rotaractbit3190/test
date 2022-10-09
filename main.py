@@ -34,7 +34,7 @@ class Cafe(db.Model):
 
 
 
-
+#home route
 @app.route("/")
 def home():
     return render_template("index.html")
@@ -84,6 +84,7 @@ def patch_new_price(cafe_id):
 @app.route("/report-closed/<int:cafe_id>", methods=["DELETE"])
 def delete_this(cafe_id):
     api_header=request.args.get("api_key")
+   try:
     if api_header=="hola":
         cafe = db.session.query(Cafe).get(cafe_id)
         if cafe:
@@ -95,7 +96,9 @@ def delete_this(cafe_id):
             return jsonify(error={"Unaurthorized": "Wrong APi key"}), 404
     else:
         return jsonify(error={"Forbidden": "Sorry, that's not allowed. Make sure you have the correct api_key."}), 403
-
+      
+   except:
+        print("error occured")
 
 
 
